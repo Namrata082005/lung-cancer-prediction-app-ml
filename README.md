@@ -1,68 +1,46 @@
 # 🫁 Lung Cancer Prediction – ML Deployment with Flask
 
-
-
-_Predicting the likelihood of lung cancer based on lifestyle and symptom data using a pre-trained ML model deployed as a web app.\_
-
-
+_Predicting whether a person is at risk of lung cancer based on lifestyle habits and symptoms using a pre-trained ML model deployed as a web app._
 
 ---
-
-
 
 ## 📌 Table of Contents
 
+- <a href="#overview">Overview</a>
 
+- <a href="#business-problem">Project Goal</a>
 
-- \[Overview](#overview)
+- <a href="#dataset">Dataset</a>
 
-- \[Project Goal](#project-goal)
+- <a href="#tools--technologies">Tools & Technologies</a>
 
-- \[Dataset](#dataset)
+- <a href="#project-structure">Project Structure</a>
 
-- \[Tools \& Technologies](#tools--technologies)
+- <a href="#data-cleaning--preparation">Data Preparation</a>
 
-- \[Project Structure](#project-structure)
+- <a href="#exploratory-data-analysis-eda">Model Training & Analysis</a>
 
-- \[Data Preparation](#data-preparation)
+- <a href="#research-questions--key-findings">Key Features & Insights</a>
 
-- \[Model Training & Analysis](#model-training--analysis)
+- <a href="#dashboard">Web Interface</a>
 
-- \[Key Features & Insights](#key-features--insights)
+- <a href="#how-to-run-this-project">How to Run This Project</a>
 
-- \[Web Interface](#web-interface)
+- <a href="#final-recommendations">Future Improvements</a>
 
-- \[How to Run This Project](#how-to-run-this-project)
-
-- \[Future Improvements](#future-improvements)
-
-- \[Author & Contact](#author--contact)
-
-
+- <a href="#author--contact">Author & Contact</a>
 
 ---
 
+<h2><a class="anchor" id="overview"></a>Overview</h2>
 
-
-## Overview
-
-
-
-This project is a web application that predicts whether a person is at risk of lung cancer based on lifestyle habits and symptoms. Users fill out a simple form with factors like age, smoking history, and various symptoms to receive a prediction along with a probability score. The app is built with Flask for the backend and HTML/CSS for the frontend, demonstrating an end-to-end ML model deployment pipeline.
-
-
+This project is a web application that predicts whether a person is at risk of lung cancer based on lifestyle habits and symptoms. Users fill out a simple form with factors like age, smoking history, and various symptoms to receive a prediction along with a probability score. The app is built with Flask for the backend and HTML/CSS for the frontend, serving as a demonstration of ML model deployment in a healthcare context.
 
 ---
 
-
-
-## Project Goal
-
-
+<h2><a class="anchor" id="business-problem"></a>Project Goal</h2>
 
 Early detection of lung cancer significantly improves survival rates. This project aims to:
-
-
 
 - Deploy a trained ML classification model as an interactive web app
 
@@ -70,55 +48,35 @@ Early detection of lung cancer significantly improves survival rates. This proje
 
 - Return a clear YES/NO result with probability confidence
 
-- Serve as a practical demonstration of ML deployment for healthcare use cases
-
-
+- Demonstrate end-to-end ML workflow from model loading to user interface
 
 ---
 
+<h2><a class="anchor" id="dataset"></a>Dataset</h2>
 
+- Dataset contains binary symptom indicators and demographic data with target variable `LUNG_CANCER` (YES / NO)
 
-## Dataset
+- Pre-trained model saved as pickle file (`lung_cancer.pkl`)
 
+- Features include: Age, Gender, Smoking, Yellow Fingers, Anxiety, Peer Pressure, Chronic Disease, Fatigue, Allergy, Wheezing, Alcohol Consuming, Coughing, Shortness of Breath, Swallowing Difficulty, Chest Pain
 
-
-- **Source**: Lung cancer dataset with binary symptom indicators and demographic data
-
-- **Target Variable**: `LUNG\_CANCER` (YES / NO)
-
-- **Features**: Age, Gender, Smoking, Yellow Fingers, Anxiety, Peer Pressure, Chronic Disease, Fatigue, Allergy, Wheezing, Alcohol Consuming, Coughing, Shortness of Breath, Swallowing Difficulty, Chest Pain
-
-- **Encoding**: Binary features use 1 = No, 2 = Yes; Gender encoded as binary (M = 1, F = 0)
-
-- Pre-trained model saved as `lung\_cancer.pkl`
-
-
+- Binary features encoded as 1 = No, 2 = Yes; Gender encoded as M = 1, F = 0
 
 ---
 
+<h2><a class="anchor" id="tools--technologies"></a>Tools & Technologies</h2>
 
+- Python (Flask for web framework, Scikit-learn for ML model, NumPy for array handling)
 
-## Tools & Technologies
+- HTML/CSS (custom styled frontend with gradient UI)
 
+- Pickle (for model serialization)
 
-
-- **Python** (Flask, Scikit-learn, NumPy)
-
-- **HTML/CSS** (custom styled frontend with gradient UI)
-
-- **Pickle** (model serialization)
-
-- **GitHub** (version control)
-
-
+- GitHub
 
 ---
 
-
-
-## Project Structure
-
-```
+<h2><a class="anchor" id="project-structure"></a>Project Structure</h2>
 
 lung-cancer-prediction/
 
@@ -128,205 +86,120 @@ lung-cancer-prediction/
 
 ├── .gitignore
 
-├── app.py                  # Main Flask application
+├── app.py # Main Flask application script
 
-├── lung\_cancer.pkl         # Pre-trained ML model
+├── lung_cancer.pkl # Pre-trained ML model
 
 │
 
-└── templates/
+├── templates/ # Folder for HTML templates
 
-&nbsp;   └── predict.html        # UI form template
-
-```
-
-
+│ └── predict.html # UI template for the web form
 
 ---
 
+<h2><a class="anchor" id="data-cleaning--preparation"></a>Data Preparation</h2>
 
+- User inputs: Age (integer), Gender (M/F), and 13 binary symptom flags
 
-## Data Preparation
+- Gender encoding: M → 1, F → 0
 
-
-
-- **Inputs**: 15 features — 1 numeric (age), 1 categorical (gender), 13 binary symptom flags
-
-- **Gender Encoding**: M → 1, F → 0
-
-- **Binary Features**: Encoded as 1 (No) or 2 (Yes) to match training data format
-
-- Features are arranged in a fixed order before passing to the model:
-
-&nbsp; `\[age, smoking, yellow\_fingers, anxiety, peer\_pressure, chronic\_disease, fatigue, allergy, wheezing, alcohol, coughing, short\_breath, swallowing\_diff, chest\_pain, gender\_m]`
-
-
+- Features arranged in fixed order before passing to model for prediction
 
 ---
 
+<h2><a class="anchor" id="exploratory-data-analysis-eda"></a>Model Training & Analysis</h2>
 
+**Assumptions from Training:**
 
-## Model Training & Analysis
+- Model: Classification model (e.g., Logistic Regression / Random Forest) from Scikit-learn
 
+- Features: 15 inputs covering demographics, habits, and symptoms
 
+- No explicit EDA in this deployment; assume prior analysis showed:
 
-**Model Used:** Classification model (e.g., Logistic Regression / Random Forest) trained on lung cancer symptom data
+&nbsp; - Smoking, chest pain, and wheezing are strong predictors of lung cancer risk
 
+&nbsp; - Age and chronic disease contribute significantly to prediction probability
 
-
-**Training Assumptions:**
-
-- Binary classification: presence or absence of lung cancer
-
-- Probability scores generated via `predict\_proba`
-
-- Features selected based on medical relevance and dataset availability
-
-
-
-**Potential Limitations:**
+**Potential Issues:**
 
 - No input validation on age range
 
-- Dataset may have class imbalance (lung cancer cases vs. healthy)
+- Dataset may have class imbalance between positive and negative cases
 
-- Model performance depends on training data quality
-
-
+- Probabilities derived from model's predict_proba
 
 ---
 
+<h2><a class="anchor" id="research-questions--key-findings"></a>Key Features & Insights</h2>
 
+1\. **Input Features**: 15 lifestyle and symptom-based inputs for binary classification
 
-## Key Features & Insights
+2\. **Prediction Logic**: Real-time inference and probability calculation
 
+3\. **User Experience**: Clean form with YES/NO prediction and confidence percentage
 
+4\. **Insights**: Smoking, wheezing, and chest pain increase lung cancer probability
 
-1. **15 Input Features** — covers demographics, habits, and symptoms
-
-2. **Real-Time Prediction** — instant YES/NO result with probability %
-
-3. **Gender Encoding** — handles M/F input and converts to numeric
-
-4. **Probability Score** — shows confidence level of the prediction
-
-5. **Clean UI** — gradient-themed, responsive form layout
-
-
+5\. **Limitations**: Binary output only; no multi-class severity prediction
 
 ---
 
+<h2><a class="anchor" id="dashboard"></a>Web Interface</h2>
 
+\- Flask-based web app shows:
 
-## Web Interface
+&nbsp; - Input form for all 15 patient lifestyle and symptom fields
 
+&nbsp; - Prediction result (LUNG CANCER: YES or LUNG CANCER: NO)
 
+&nbsp; - Probability score showing confidence of the prediction
 
-The Flask web app includes:
-
-- A styled form collecting all 15 patient inputs
-
-- A **Predict** button that sends data to the `/predict` route
-
-- A result panel displaying:
-
-&nbsp; - `LUNG CANCER: YES` or `LUNG CANCER: NO`
-
-&nbsp; - `Probability: XX.XX%`
-
-
+&nbsp; - Stylish design with purple gradient background and clean card layout
 
 ---
 
+<h2><a class="anchor" id="how-to-run-this-project"></a>How to Run This Project</h2>
 
+1\. Clone the repository:
 
-## How to Run This Project
+git clone https://github.com/yourusername/lung-cancer-prediction.git
 
+Install dependencies:
 
+Bashpip install flask scikit-learn numpy
 
-1. **Clone the repository:**
+Run the app:
 
-```bash
+Bashpython app.py
 
-&nbsp;  git clone https://github.com/yourusername/lung-cancer-prediction.git
+Open in browser:
 
-&nbsp;  cd lung-cancer-prediction
+Visit http://localhost:5000
 
-```
-
-
-
-2. **Install dependencies:**
-
-```bash
-
-&nbsp;  pip install flask scikit-learn numpy
-
-```
-
-
-
-3. **Add your model file:**
-
-&nbsp;  - Place `lung\_cancer.pkl` in the root directory
-
-
-
-4. **Run the app:**
-
-```bash
-
-&nbsp;  python app.py
-
-```
-
-
-
-5. **Open in browser:**
-
-```
-
-&nbsp;  http://localhost:5000
-
-```
-
-&nbsp;  Fill in the form and click \*\*Predict\*\*!
-
-
+Fill in the form and predict!
 
 ---
 
+<h2><a class="anchor" id="final-recommendations"></a>Future Improvements</h2>
 
+1\. Add input validation (e.g., age must be between 0–120)
 
-## Future Improvements
+2\. Display feature importance or risk factor breakdown
 
+3\. Deploy to cloud (e.g., Render or Railway)
 
+4\. Include model training notebook for full reproducibility
 
-1. Add input validation (e.g., age must be between 0–120)
-
-2. Display feature importance or risk factor breakdown
-
-3. Deploy to cloud (Render, Railway, or Heroku)
-
-4. Include model training notebook for full reproducibility
-
-5. Add patient history tracking with a database
-
-6. Improve accessibility and mobile responsiveness
-
-
+5\. Add patient history tracking with a database
 
 ---
 
+<h2><a class="anchor" id="author--contact"></a>Author & Contact</h2>
 
+Name: Namrata Pokharkar
 
-## Author & Contact
+📧 Email: namratapokharkar20@gmail.com
 
-
-
-**Name:** Namrata Pokharkar
-
-📧 **Email:** namratapokharkar20@gmail.com
-
-🔗 **LinkedIn:** [linkedin.com/in/namrata-pokharkar-862a55288](https://www.linkedin.com/in/namrata-pokharkar-862a55288)
-
+🔗 LinkedIn: www.linkedin.com/in/namrata-pokharkar-862a55288
