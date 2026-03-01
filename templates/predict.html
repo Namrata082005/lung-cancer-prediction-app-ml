@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lung Cancer Prediction</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #333;
+        }
+        h2 {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            font-size: 28px;
+        }
+        .container {
+            max-width: 450px;
+            margin: 30px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0px 6px 15px rgba(0,0,0,0.2);
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 12px;
+            margin-bottom: 5px;
+            color: #444;
+        }
+        input, select {
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+        }
+        input:focus, select:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0px 0px 6px rgba(102,126,234,0.6);
+        }
+        button {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            width: 100%;
+            transition: background 0.3s ease;
+        }
+        button:hover {
+            background: #764ba2;
+        }
+        .result {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: #222;
+            background: #f0f0f0;
+            padding: 12px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h2>🩺 Lung Cancer Prediction System</h2>
+    <div class="container">
+        <form method="POST" action="/predict">
+            <label>Age:</label>
+            <input type="number" name="age" required>
+
+            <label>Gender:</label>
+            <select name="gender" required>
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+            </select>
+
+            <label>Smoking:</label>
+            <select name="smoking" required>
+                <option value="1">No</option>
+                <option value="2">Yes</option>
+            </select>
+
+            <label>Yellow Fingers:</label>
+            <select name="yellow_fingers" required>
+                <option value="1">No</option>
+                <option value="2">Yes</option>
+            </select>
+
+            <label>Anxiety:</label>
+            <select name="anxiety" required>
+                <option value="1">No</option>
+                <option value="2">Yes</option>
+            </select>
+
+            <label>Peer Pressure:</label>
+            <select name="peer_pressure" required>
+                <option value="1">No</option>
+                <option value="2">Yes</option>
+            </select>
+
+            <label>Chronic Disease:</label>
+            <select name="chronic_disease" required>
+                <option value="1">No</option>
+                <option value="2">Yes</option>
+            </select>
+
+            <label>Fatigue:</label>
+            <select name="fatigue" required>
+                <option value="1">No</option>
+                <option value="2">Yes</option>
+            </select>
+
+            <label>Allergy:</label>
+            <select name="allergy" required>
+                <option value="1">No</option>
+                <option value="2">Yes</option>
+            </select>
+
+            <label>Wheezing:</label>
+            <select name="wheezing" required>
+                <option value="1">No</option>
+                <option value="2">Yes</option>
+            </select>
+
+            <label>Alcohol Consuming:</label>
+            <select name="alcohol" required>
+                <option value="1">No</option>
+                <option value="2">Yes</option>
+            </select>
+
+            <label>Coughing:</label>
+            <select name="coughing" required>
+                <option value="1">No</option>
+                <option value="2">Yes</option>
+            </select>
+
+            <label>Shortness of Breath:</label>
+            <select name="short_breath" required>
+                <option value="1">No</option>
+                <option value="2">Yes</option>
+            </select>
+
+            <label>Swallowing Difficulty:</label>
+            <select name="swallowing_diff" required>
+                <option value="1">No</option>
+                <option value="2">Yes</option>
+            </select>
+
+            <label>Chest Pain:</label>
+            <select name="chest_pain" required>
+                <option value="1">No</option>
+                <option value="2">Yes</option>
+            </select>
+
+            <button type="submit">🔍 Predict</button>
+        </form>
+
+        {% if pred %}
+        <div class="result">
+            {{ pred }} <br>
+            {{ prob }}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
